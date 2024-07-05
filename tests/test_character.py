@@ -1,5 +1,6 @@
 import pytest
 from src.character import Character
+import random 
 
 def test_character_creation():
     character = Character("Aragorn", "Good")
@@ -24,3 +25,18 @@ def test_default_hit_points():
     character = Character("Aragorn", "Good")
     assert character.get_hit_points() == 5
 
+def test_attack_success():
+    attacker = Character("Aragorn", "Good")
+    defender = Character("Orc", "Evil")
+    defender.armor_class = 10
+
+    random.seed(15)  # Force the roll to be 15 for consistent test result
+    assert attacker.attack(defender) is True
+
+def test_attack_failure():
+    attacker = Character("Aragorn", "Good")
+    defender = Character("Orc", "Evil")
+    defender.armor_class = 15
+
+    random.seed(10)  # Force the roll to be 10 for consistent test result
+    assert attacker.attack(defender) is False
