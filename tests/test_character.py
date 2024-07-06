@@ -85,4 +85,35 @@ def test_level_up():
     assert character.level == 2
     assert character.get_hit_points() == 10 + character.get_modifier(character.constitution)
 
+def test_ability_scores_default():
+    character = Character("Aragorn", "Good")
+    assert character.strength == 10
+    assert character.dexterity == 10
+    assert character.constitution == 10
+    assert character.wisdom == 10
+    assert character.intelligence == 10
+    assert character.charisma == 10
+
+def test_ability_modifiers():
+    character = Character("Aragorn", "Good")
+    assert character.get_modifier(10) == 0
+    assert character.get_modifier(8) == -1
+    assert character.get_modifier(15) == 2
+    assert character.get_modifier(20) == 5
+
+def test_dexterity_modifier_applied_to_armor_class():         ########## modify it later?
+    character = Character("Aragorn", "Good")
+    character.dexterity = 14
+    character.armor_class = 10 + character.get_modifier(character.dexterity)  # Recalculate AC
+    assert character.get_armor_class() == 12  # 10 + 2
+
+
+def test_constitution_modifier_applied_to_hit_points():         ########## modify it later?
+    character = Character("Aragorn", "Good")
+    character.constitution = 14
+    character.hit_points = 5 + character.get_modifier(character.constitution)
+    assert character.get_hit_points() == 7  
+
+
+
 
